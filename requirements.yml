@@ -1,2 +1,6 @@
 ---
-  - name: community.general
+collections:
+- name: community.general
+- name: dellemc.os6
+- name: dellemc.os9
+- name: dellemc.os10
