@@ -1,4 +1,5 @@
 ---
+ignore_errors: yes
 # collections: # ansible-galaxy collection install -r requirements.yml
 - name: community.general
 # - name: dellemc.os6
