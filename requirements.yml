@@ -1,6 +1,6 @@
 ---
-collections: # ansible-galaxy collection install -r requirements.yml
+# collections: # ansible-galaxy collection install -r requirements.yml
 - name: community.general
-- name: dellemc.os6
-- name: dellemc.os9
-- name: dellemc.os10
+# - name: dellemc.os6
+# - name: dellemc.os9
+# - name: dellemc.os10
