@@ -1,1 +1,10 @@
 #ansible-galaxy collection install -r requirements.yml -p <job tmp location>
+---
+- hosts: localhost
+  ignore_errors: yes
+  gather_facts: no
+  collections:
+    - community.general
+    - dellemc.os6
+    - dellemc.os9
+    - dellemc.os10
