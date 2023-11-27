@@ -1,1 +1,10 @@
-
+---
+- hosts: localhost
+  ignore_errors: yes
+  gather_facts: no
+  # ansible-galaxy role install -r roles/requirements.yml -p <project-specific cache location>/requirements_roles -vvv
+  collections:
+    - community.general
+    - dellemc.os6
+    - dellemc.os9
+    - dellemc.os10
