@@ -1,0 +1,90 @@
+##### Save result to file ####
+- hosts: all
+  vars_prompt:
+     name: my_command
+     prompt: "Please type commands here "
+     private: no
+  connection: network_cli
+  gather_facts: no
+  ignore_errors: yes
+  tasks: 
+  - name: "run command on OS10 switches"    
+    block:
+      - name: "Get DellEMC OS10 command Result"
+        dellemc.os10.os10_command:
+            commands: ['{{ my_command }}']
+        register: command
+      # - debug: var=command.stdout_lines    
+      - name: save output to a file
+        copy: content="{{ inventory_hostname }}#\n{{ command.stdout[0] }}" dest="./logs/{{ inventory_hostname }}.show"
+      # need change gather_facts to yes
+      # - name: add timestamp to log file
+      #   shell: mv ./logs/{{ inventory_hostname }}.show ./logs/{{ inventory_hostname }}.{{ ansible_date_time.iso8601_basic_short }}.txt
+    tags: os10
+    when: ansible_network_os == "dellemc.os10.os10"
+  ##################################################
+  - name: "run command on OS9 switches"    
+    block:
+      - name: "Get DellEMC OS9 command Result"
+        dellemc.os9.os9_command:
+            commands: ['{{ my_command }}']
+        register: command
+ 
+      - name: save output to a file
+        copy: content="{{ inventory_hostname }}#\n{{ command.stdout[0] }}" dest="./logs/{{ inventory_hostname }}.show"
+      # - name: add timestamp to log file
+      #   shell: mv ./logs/{{ inventory_hostname }}.show ./logs/{{ inventory_hostname }}.{{ ansible_date_time.iso8601_basic_short }}.txt
+    tags: os9    
+    when: ansible_network_os == "dellemc.os9.os9"
+  ##################################################
+  - name: "run command on OS6 switches"    
+    block:
+      - name: "Get DellEMC OS6 command Result"
+        dellemc.os6.os6_command:
+            commands: ['{{ my_command }}']
+        register: command
+ 
+      - name: save output to a file
+        copy: content="{{ inventory_hostname }}#\n{{ command.stdout[0] }}" dest="./logs/{{ inventory_hostname }}.show"
+      # - name: add timestamp to log file
+      #   shell: mv ./logs/{{ inventory_hostname }}.show ./logs/{{ inventory_hostname }}.{{ ansible_date_time.iso8601_basic_short }}.txt
+    tags: os6  
+    when: ansible_network_os == "dellemc.os6.os6"
+  ##################################################
+  - name: "run command on IOS switches"    
+    block:
+      - name: "Get IOS command Result"
+        cisco.ios.ios_command:
+            commands: ['{{ my_command }}']
+        register: command
+
+      - name: save output to a file
+        copy: content="{{ inventory_hostname }}#\n{{ my_command }}\n{{ command.stdout[0] }}" dest="./logs/{{ inventory_hostname }}.show"
+    tags: ios
+    when: ansible_network_os == "cisco.ios.ios"
+  ##################################################
+  - name: "run command on NXOS switches"    
+    block:
+      - name: "Get NXOS command Result"
+        cisco.nxos.nxos_command:
+            commands: ['{{ my_command }}']
+        register: command
+
+      - name: save output to a file
+        copy: content="{{ inventory_hostname }}#\n{{ my_command }}\n{{ command.stdout[0] }}" dest="./logs/{{ inventory_hostname }}.show"
+    tags: nxos
+    when: ansible_network_os == "cisco.nxos.nxos"
+  ##################################################
+  - name: "run command on SNOIC switches"    
+    block:
+      - name: "Get DellEMC Sonic command Result"
+        dellemc.enterprise_sonic.sonic_command:
+          commands: ['{{ my_command }}']
+        register: command
+ 
+      - name: save output to a file
+        copy: content="{{ inventory_hostname }}#\n{{ command.stdout[0] }}" dest="./logs/{{ inventory_hostname }}.show"
+      # - name: add timestamp to log file
+      #   shell: mv ./logs/{{ inventory_hostname }}.show ./logs/{{ inventory_hostname }}.{{ ansible_date_time.iso8601_basic_short }}.txt
+    tags: sonic
+    when: ansible_network_os == "dellemc.enterprise_sonic.sonic"
